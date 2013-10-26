@@ -9,7 +9,12 @@
     <script src="scripts/bower_components/ng-grid/ng-grid-2.0.7.min.js"></script>
     <script src="scripts/stocks.js"></script>
   </head>
-  <body ng-controller="MyCtrl">
-    <div class="gridStyle" ng-grid="gridOptions"></div>
+  <body>
+    <div ng-controller="dayTopStocksCtrl">
+      <div class="gridStyle" ng-grid="gridOptions"></div>
+    </div>
+    <div ng-controller="linearRegressionCtrl">
+      <div class="linearRegressionGridStyle" ng-grid="gridOptions"></div>
+    </div>
   </body>
 </html>
