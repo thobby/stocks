@@ -9,3 +9,4 @@ drop table data;
 create table data (ticker integer, datum integer, open real, close real, high real, low real, volume integer, adj_close real, unique (ticker, datum));
 
 insert into exchanges (id, name) values (null, "ose");
+insert into exchanges (id, name) values (null, "nasdaq");

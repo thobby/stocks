@@ -1,12 +1,11 @@
 #!/usr/bin/env python3.3
 
-#import datetime
+import csv
 import logging
 import re
 import requests
 import sqlite3
 import sys
-import time
 import ystockquote
 
 logging.basicConfig(level = logging.DEBUG)
@@ -28,6 +27,20 @@ class ose:
         tickers = set(tickers)
         return tickers
 
+class nasdaq:
+    id = 2
+    name = 'nasdaq'
+    filename = 'nasdaq.csv'
+
+    def get_tickers(self):
+        tickers = []
+        with open(self.filename, 'r') as csvfile:
+            reader = csv.reader(csvfile, delimiter=',')
+            for row in reader:
+                tickers.append(row[0])
+        tickers = set(tickers)
+        return tickers
+
 class ticker:
     id = -1
     name = ''
@@ -41,12 +54,12 @@ class ticker:
 class db:
     file = 'stocks.db'
 
-    def __init__(self):
+    def open_connection(self):
         logger.debug("Opening connection to DB %s", self.file)
         self.conn = sqlite3.connect(self.file)
         self.cur = self.conn.cursor()
 
-    def __del__(self):
+    def close_connection(self):
         logger.debug("Closing connection to DB %s", self.file)
         self.conn.commit()
         self.conn.close()
@@ -84,16 +97,32 @@ class db:
                          ))
 
 
-exch = ose()
 db = db()
+db.open_connection()
 
-tickers = exch.get_tickers()
-db.update_tickers(exch, tickers)
+ose = ose()
+tickers = ose.get_tickers()
+db.update_tickers(ose, tickers)
 
-for t in db.get_tickers(exch):
+for t in db.get_tickers(ose):
     logger.info("Updating %s", t.name)
     try:
-        data = ystockquote.get_historical_prices(t.name, "2013-01-01", "2013-10-20")
+        data = ystockquote.get_historical_prices(t.name, "2013-01-01", "2013-10-23")
     except:
         logger.warning("Getting %s from Yahoo failed %s", t.name, sys.exc_info()[0])
-    db.update_data_ticker(exch, t, data)
+    db.update_data_ticker(ose, t, data)
+
+nasdaq = nasdaq()
+tickers = nasdaq.get_tickers()
+db.update_tickers(nasdaq, tickers)
+
+for t in db.get_tickers(nasdaq):
+    logger.info("Updating %s", t.name)
+    try:
+        data = ystockquote.get_historical_prices(t.name, "2013-01-01", "2013-10-23")
+    except:
+        logger.warning("Getting %s from Yahoo failed %s", t.name, sys.exc_info()[0])
+    db.update_data_ticker(nasdaq, t, data)
+
+db.close_connection()
+
