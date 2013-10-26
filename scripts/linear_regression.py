@@ -103,5 +103,8 @@ lrs.sort(key=lambda x: x.p_value, reverse=True)
 
 for lr in lrs:
     print("%s %s %s" % (lr.ticker.name, lr.gradient, lr.p_value))
+    db.cur.execute("insert into linear_regression(ticker, gradient, intercept, r_value, p_value, std_err) " +
+               "values (?, ?, ?, ?, ?, ?)",
+                (lr.ticker.id, lr.gradient, lr.intercept, lr.r_value, lr.p_value, lr.std_err));
 
 db.close_connection()
