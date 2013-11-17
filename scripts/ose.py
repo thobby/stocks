@@ -107,7 +107,7 @@ db.update_tickers(ose, tickers)
 for t in db.get_tickers(ose):
     logger.info("Updating %s", t.name)
     try:
-        data = ystockquote.get_historical_prices(t.name, "2013-01-01", "2013-10-23")
+        data = ystockquote.get_historical_prices(t.name, "2007-01-01", "2015-01-01")
     except:
         logger.warning("Getting %s from Yahoo failed %s", t.name, sys.exc_info()[0])
     db.update_data_ticker(ose, t, data)
@@ -119,7 +119,7 @@ db.update_tickers(nasdaq, tickers)
 for t in db.get_tickers(nasdaq):
     logger.info("Updating %s", t.name)
     try:
-        data = ystockquote.get_historical_prices(t.name, "2013-01-01", "2013-10-23")
+        data = ystockquote.get_historical_prices(t.name, "2007-01-01", "2015-01-01")
     except:
         logger.warning("Getting %s from Yahoo failed %s", t.name, sys.exc_info()[0])
     db.update_data_ticker(nasdaq, t, data)

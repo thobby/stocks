@@ -3,18 +3,22 @@
   <head>
     <title>Stocks</title>
     <link rel="stylesheet" type="text/css" href="scripts/bower_components/ng-grid/ng-grid.css" />
+    <link rel="stylesheet" type="text/css" href="scripts/bower_components/angular-slider/angular-slider.css" />
     <link rel="stylesheet" type="text/css" href="css/stocks.css" />
     <script src="scripts/bower_components/jquery/jquery.js"></script>
     <script src="scripts/bower_components/angular/angular.js"></script>
+    <script src="scripts/bower_components/angular-slider/angular-slider.js"></script>
     <script src="scripts/bower_components/ng-grid/ng-grid-2.0.7.min.js"></script>
     <script src="scripts/stocks.js"></script>
   </head>
   <body>
+    <div ng-controller="linearRegressionCtrl">
+      {{minDatum | date:'dd.MM.yyyy'}} - {{maxDatum | date:'dd.MM.yyyy'}}
+      <slider floor="1" ceiling="730" ng-model-low="minDatumTS" ng-model-high="maxDatumTS"></slider>
+      <div class="linearRegressionGridStyle" ng-grid="gridOptions"></div>
+    </div>
     <div ng-controller="dayTopStocksCtrl">
       <div class="gridStyle" ng-grid="gridOptions"></div>
-    </div>
-    <div ng-controller="linearRegressionCtrl">
-      <div class="linearRegressionGridStyle" ng-grid="gridOptions"></div>
     </div>
   </body>
 </html>
