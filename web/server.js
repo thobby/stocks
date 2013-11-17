@@ -30,6 +30,23 @@ app.get("/dayTopStocks", function(req, res) {
 });
 
 app.get("/linearRegression", function(req, res) {
+  var exec = require('child_process').exec, child;
+
+  child = exec('math/lr.py',
+    function (error, stdout, stderr) {
+      console.log('stdout: ' + stdout);
+      console.log('stderr: ' + stderr);
+
+      if (error !== null) {
+        console.log('exec error: ' + error);
+      }
+
+      res.send(stdout);
+    });
+});
+
+/*
+app.get("/linearRegression", function(req, res) {
   var db = new sqlite3.Database("stocks.db", sqlite3.OPEN_READONLY);
   sqlite3.verbose();
 
@@ -56,6 +73,7 @@ app.get("/linearRegression", function(req, res) {
     });
   });
 });
+*/
 
 app.use(express.static('public'));
 app.listen(8080);

@@ -39,12 +39,10 @@ function linearRegressionCtrl($scope, $http) {
   $scope.gridOptions = {
     data: 'linearRegression',
     showFilter: true,
-    columnDefs: [{ field: "name", width: 120, displayName: "Name"},
-                { field: "gradient", width: 120, displayName: "Gradient"},
-                { field: "intercept", width: 120, displayName: "Intercept"},
-                { field: "r_value", width: 120, displayName: "r_value"},
-                { field: "p_value", width: 120, displayName: "p_value"},
-                { field: "std_err", width: 120, displayName: "std_err"}]
+    columnDefs: [{ field: "t", width: 120, displayName: "Ticker"},
+                { field: "g", width: 120, displayName: "Gradient"},
+                { field: "i", width: 120, displayName: "Intercept"},
+                { field: "r", width: 120, displayName: "R value"}],
   };
   $scope.linearRegression = [];
   $scope.linearRegressionPlus = 0;
